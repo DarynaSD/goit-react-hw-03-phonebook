@@ -18,6 +18,20 @@ class App extends Component {
     filter: null,
   }
 
+  componentDidMount = () => {
+    const storageContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (storageContacts) {
+      this.setState({contacts: storageContacts})
+    }
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+  
+
   createContact = (formData) => {
     const alreadyExist = this.state.contacts.find(
       (item) => item.name === formData.name
